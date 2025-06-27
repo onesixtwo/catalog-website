@@ -50,79 +50,51 @@ function ButterflyEffect() {
     }
   }
 
-  // Move initializeWebLLM inside useCallback with force parameter
-  const initializeWebLLM = useCallback(
-    async (force = false) => {
-      alert(`🚀 ${force ? "Force AI Init" : "Auto AI Init"} starting!`)
+  // Initialize WebLLM
+  const initializeWebLLM = useCallback(async () => {
+    if (initializationAttempted) {
+      return
+    }
 
-      if (initializationAttempted && !force) {
-        alert("⚠️ AI initialization already attempted! Use Force AI Init to retry.")
-        return
-      }
+    setInitializationAttempted(true)
 
-      if (force) {
-        alert("💪 Force initialization - resetting previous attempt...")
-        setInitializationAttempted(false)
-        setWebllmReady(false)
-        engineRef.current = null
-      }
+    // Check if we're in a browser environment
+    if (typeof window === "undefined") {
+      setWebllmReady(false)
+      setOutput("Offline mode ready - generate butterfly effects!")
+      return
+    }
 
-      alert("✅ Starting AI initialization process...")
-      setInitializationAttempted(true)
+    setOutput("Loading AI model... This may take a few minutes on first load.<br/>Downloading model files...")
 
-      // Check if we're in a browser environment
-      if (typeof window === "undefined") {
-        alert("🔄 Server-side rendering detected - skipping AI init")
-        setWebllmReady(false)
-        setOutput("Offline mode ready - generate butterfly effects!")
-        return
-      }
+    try {
+      // Use the safe loading function
+      const webllmModule = await loadWebLLM()
+      const { CreateMLCEngine } = webllmModule
 
-      alert("📥 About to download AI model files...")
-      setOutput("Loading AI model... This may take a few minutes on first load.<br/>Downloading model files...")
+      // Initialize with a smaller, faster model
+      const selectedModel = "Llama-3.2-1B-Instruct-q4f32_1-MLC"
 
-      try {
-        alert("🔗 Loading WebLLM module...")
+      setOutput(`Initializing ${selectedModel}...<br/>Please wait, this may take a moment...`)
 
-        // Use the safe loading function
-        const webllmModule = await loadWebLLM()
-        const { CreateMLCEngine } = webllmModule
+      engineRef.current = await CreateMLCEngine(selectedModel, {
+        initProgressCallback: (report) => {
+          console.log("WebLLM Init Progress:", report)
+          if (report.text) {
+            setOutput(`Loading: ${report.text}<br/>Progress: ${Math.round((report.progress || 0) * 100)}%`)
+          }
+        },
+      })
 
-        alert("✅ WebLLM module loaded successfully!")
-
-        // Initialize with a smaller, faster model
-        const selectedModel = "Llama-3.2-1B-Instruct-q4f32_1-MLC"
-        alert(`🤖 Creating AI engine with model: ${selectedModel}`)
-
-        setOutput(`Initializing ${selectedModel}...<br/>Please wait, this may take a moment...`)
-
-        engineRef.current = await CreateMLCEngine(selectedModel, {
-          initProgressCallback: (report) => {
-            console.log("WebLLM Init Progress:", report)
-            if (report.text) {
-              setOutput(`Loading: ${report.text}<br/>Progress: ${Math.round((report.progress || 0) * 100)}%`)
-            }
-          },
-        })
-
-        setWebllmReady(true)
-        alert("🎉 AI initialization completed successfully!")
-        console.log("🤖 WebLLM initialized successfully!")
-        setOutput("AI ready! Enter a decision to generate butterfly effects.")
-      } catch (error) {
-        alert(`❌ AI initialization failed: ${error.message}`)
-        console.error("Failed to initialize WebLLM:", error)
-        setWebllmReady(false)
-        setOutput("Using offline mode with pre-generated effects.<br/>🎲 Still fun, just not AI-powered!")
-      }
-    },
-    [initializationAttempted],
-  )
-
-  // Force AI initialization function for the button
-  const forceInitializeWebLLM = useCallback(() => {
-    initializeWebLLM(true)
-  }, [initializeWebLLM])
+      setWebllmReady(true)
+      console.log("🤖 WebLLM initialized successfully!")
+      setOutput("AI ready! Enter a decision to generate butterfly effects.")
+    } catch (error) {
+      console.error("Failed to initialize WebLLM:", error)
+      setWebllmReady(false)
+      setOutput("Using offline mode with pre-generated effects.<br/>🎲 Still fun, just not AI-powered!")
+    }
+  }, [initializationAttempted])
 
   useEffect(() => {
     // Check for saved theme preference, default to dark if none
@@ -133,7 +105,7 @@ function ButterflyEffect() {
 
     // Only try to initialize WebLLM in browser environment
     if (typeof window !== "undefined") {
-      setTimeout(() => initializeWebLLM(false), 1000)
+      setTimeout(() => initializeWebLLM(), 1000)
     } else {
       // Server-side rendering - skip AI initialization
       setInitializationAttempted(true)
@@ -195,9 +167,9 @@ Now generate one starting from:`
       return
     }
 
-    // Force AI initialization when generate is clicked
+    // Initialize AI if not attempted yet
     if (!initializationAttempted) {
-      await initializeWebLLM(false)
+      await initializeWebLLM()
     }
 
     setIsLoading(true)
@@ -275,14 +247,6 @@ Now generate one starting from:`
               className={`retro-button generate-button ${isButtonDisabled() ? "disabled" : ""}`}
             >
               {getButtonText()}
-            </button>
-            <button
-              onClick={forceInitializeWebLLM}
-              className="retro-button"
-              style={{ marginLeft: "1rem", backgroundColor: webllmReady ? "#00ff9d" : "" }}
-              disabled={isLoading}
-            >
-              {webllmReady ? "AI Ready ✅" : "Force AI Init 🚀"}
             </button>
           </div>
 
