@@ -48,14 +48,17 @@ function ButterflyEffect() {
 
     try {
       // Only attempt dynamic import in browser environment
-      const webllmModule = await import("https://esm.run/@mlc-ai/web-llm")
+      console.log("Attempting to load WebLLM...");
+      const webllmModule = await import("https://esm.run/@mlc-ai/web-llm");
+      console.log("WebLLM module loaded", webllmModule);
+
       const { CreateMLCEngine } = webllmModule
 
       // Initialize with a smaller, faster model
       const selectedModel = "Llama-3.2-1B-Instruct-q4f32_1-MLC"
 
       setOutput(`Initializing ${selectedModel}...<br/>Please wait, this may take a moment...`)
-
+      console.log("Creating MLC engine...");
       engineRef.current = await CreateMLCEngine(selectedModel, {
         initProgressCallback: (report) => {
           console.log("WebLLM Init Progress:", report)
@@ -64,7 +67,8 @@ function ButterflyEffect() {
           }
         },
       })
-
+      console.log("Engine created", engineRef.current);
+      
       setWebllmReady(true)
       console.log("🤖 WebLLM initialized successfully!")
       setOutput("AI ready! Enter a decision to generate butterfly effects.")
