@@ -32,6 +32,24 @@ function ButterflyEffect() {
   const [initializationAttempted, setInitializationAttempted] = useState(false)
   const engineRef = useRef(null)
 
+  // Function to safely load WebLLM only in browser environment
+  const loadWebLLM = async () => {
+    try {
+      // Only attempt to load in browser environment
+      if (typeof window === "undefined") {
+        throw new Error("Not in browser environment")
+      }
+
+      // Use a function constructor to avoid build-time dynamic import issues
+      const importWebLLM = new Function('return import("https://esm.run/@mlc-ai/web-llm")')
+      const webllmModule = await importWebLLM()
+      return webllmModule
+    } catch (error) {
+      console.error("Failed to load WebLLM:", error)
+      throw error
+    }
+  }
+
   // Move initializeWebLLM inside useCallback with force parameter
   const initializeWebLLM = useCallback(
     async (force = false) => {
@@ -64,12 +82,13 @@ function ButterflyEffect() {
       setOutput("Loading AI model... This may take a few minutes on first load.<br/>Downloading model files...")
 
       try {
-        alert("🔗 Importing WebLLM module...")
-        // Dynamic import for WebLLM
-        const webllmModule = await import("https://esm.run/@mlc-ai/web-llm")
+        alert("🔗 Loading WebLLM module...")
+
+        // Use the safe loading function
+        const webllmModule = await loadWebLLM()
         const { CreateMLCEngine } = webllmModule
 
-        alert("✅ WebLLM module imported successfully!")
+        alert("✅ WebLLM module loaded successfully!")
 
         // Initialize with a smaller, faster model
         const selectedModel = "Llama-3.2-1B-Instruct-q4f32_1-MLC"
