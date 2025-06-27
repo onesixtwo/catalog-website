@@ -4,48 +4,8 @@ import { Link } from "react-router-dom"
 import Header from "../components/header"
 import Footer from "../components/footer"
 import "../styles/Home.css"
-import { useState, useCallback } from "react"
 
 function Home() {
-  const [initializationAttempted, setInitializationAttempted] = useState(false)
-
-  const initializeWebLLM = useCallback(async () => {
-    if (initializationAttempted) return
-    setInitializationAttempted(true)
-
-    console.log("Initializing WebLLM from Home page...")
-
-    try {
-      // Only attempt dynamic import in browser environment
-      const webllmModule = await import("https://esm.run/@mlc-ai/web-llm")
-      const { CreateMLCEngine } = webllmModule
-
-      // Initialize with a smaller, faster model
-      const selectedModel = "Llama-3.2-1B-Instruct-q4f32_1-MLC"
-
-      console.log(`Initializing ${selectedModel}...`)
-
-      await CreateMLCEngine(selectedModel, {
-        initProgressCallback: (report) => {
-          console.log("WebLLM Init Progress:", report)
-        },
-      })
-
-      console.log("🤖 WebLLM initialized successfully from Home!")
-    } catch (error) {
-      console.error("Failed to initialize WebLLM from Home:", error)
-    }
-  }, [initializationAttempted])
-
-  const handleButterflyClick = (e) => {
-    e.preventDefault()
-    initializeWebLLM()
-    // Small delay to allow initialization to start, then navigate
-    setTimeout(() => {
-      window.location.href = "/Butterfly Effect"
-    }, 100)
-  }
-
   return (
     <div className="min-h-screen p-4 md:p-8">
       <div className="scanline"></div>
@@ -103,7 +63,7 @@ function Home() {
         </Link>
 
         {/* Card 3 - Butterfly Effect */}
-        <div onClick={handleButterflyClick} className="retro-card p-5 pixel-corners" style={{ cursor: "pointer" }}>
+        <Link to="/Butterfly Effect" className="retro-card p-5 pixel-corners">
           <div className="flex justify-between items-start mb-3">
             <h2 className="text-2xl font-bold">Butterfly Effect</h2>
           </div>
@@ -124,7 +84,7 @@ function Home() {
             </svg>
           </div>
           <p className="text-lg">tiny decision and watch chaos unfold</p>
-        </div>
+        </Link>
 
         {/* Card 4 - IDK */}
         <Link to="/*" className="retro-card p-5 pixel-corners">
