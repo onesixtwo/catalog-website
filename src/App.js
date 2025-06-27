@@ -4,6 +4,7 @@ import GradeCalculator from "./pages/Grade Calculator"
 import BJCounter from "./pages/BJ Counter"
 import ButterflyEffect from "./pages/Butterfly Effect"
 import NotFound from "./pages/404"
+import Valentine from "./pages/valentine"
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/BJ Counter" element={<BJCounter />} />
         <Route path="/Butterfly Effect" element={<ButterflyEffect />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/valentine" element={<Valentine />} />
       </Routes>
     </Router>
   )

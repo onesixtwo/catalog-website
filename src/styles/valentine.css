@@ -1,0 +1,948 @@
+@import url("https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&family=Dancing+Script:wght@400;700&display=swap");
+
+:root {
+  --primary: #5a4a42;
+  --secondary: #8b5a2b;
+  --light: #faf6ea;
+  --dark: #000000;
+  --darker: #f8f4e5;
+  --accent: #a0522d;
+  --valentine: #ff69b4;
+  --valentine-dark: #e91e63;
+  --romantic-pink: #ffb6c1;
+  --romantic-red: #ff1493;
+  --romantic-purple: #dda0dd;
+  --glow: none;
+}
+
+.dark {
+  --primary: #0cff0c;
+  --secondary: #00cc00;
+  --light: #0a0a0a;
+  --dark: #f0fff0;
+  --darker: #050505;
+  --accent: #00ff9d;
+  --valentine: #ff1493;
+  --valentine-dark: #dc143c;
+  --romantic-pink: #ff69b4;
+  --romantic-red: #ff1493;
+  --romantic-purple: #da70d6;
+  --glow: 0 0 5px #0cff0c, 0 0 10px #0cff0c40;
+}
+
+body {
+  font-family: "VT323", monospace;
+  background-color: var(--darker);
+  color: var(--primary);
+  text-shadow: var(--glow);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23d2c8b0' fill-opacity='0.1' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
+  transition: all 0.3s ease;
+}
+
+/* Valentine Page Background */
+.valentine-page {
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #ffeef8 0%, #ffe0f0 25%, #ffd1e8 50%, #ffb6d9 75%, #ff9ec7 100%);
+}
+
+.dark .valentine-page {
+  background: linear-gradient(135deg, #1a0d14 0%, #2d1b26 25%, #3d2235 50%, #4a2a42 75%, #5c3454 100%);
+}
+
+.romantic-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Floating Hearts Animation */
+.floating-hearts {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.floating-heart {
+  position: absolute;
+  font-size: 1.5rem;
+  opacity: 0.7;
+  animation: floatUp 8s infinite linear;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(100vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.7;
+  }
+  90% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(-100px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Individual heart positioning and delays */
+.heart-1 {
+  left: 5%;
+  animation-delay: 0s;
+}
+.heart-2 {
+  left: 15%;
+  animation-delay: 1s;
+}
+.heart-3 {
+  left: 25%;
+  animation-delay: 2s;
+}
+.heart-4 {
+  left: 35%;
+  animation-delay: 3s;
+}
+.heart-5 {
+  left: 45%;
+  animation-delay: 4s;
+}
+.heart-6 {
+  left: 55%;
+  animation-delay: 5s;
+}
+.heart-7 {
+  left: 65%;
+  animation-delay: 6s;
+}
+.heart-8 {
+  left: 75%;
+  animation-delay: 7s;
+}
+.heart-9 {
+  left: 85%;
+  animation-delay: 0.5s;
+}
+.heart-10 {
+  left: 95%;
+  animation-delay: 1.5s;
+}
+.heart-11 {
+  left: 10%;
+  animation-delay: 2.5s;
+}
+.heart-12 {
+  left: 20%;
+  animation-delay: 3.5s;
+}
+.heart-13 {
+  left: 30%;
+  animation-delay: 4.5s;
+}
+.heart-14 {
+  left: 40%;
+  animation-delay: 5.5s;
+}
+.heart-15 {
+  left: 50%;
+  animation-delay: 6.5s;
+}
+.heart-16 {
+  left: 60%;
+  animation-delay: 7.5s;
+}
+.heart-17 {
+  left: 70%;
+  animation-delay: 0.2s;
+}
+.heart-18 {
+  left: 80%;
+  animation-delay: 1.2s;
+}
+.heart-19 {
+  left: 90%;
+  animation-delay: 2.2s;
+}
+.heart-20 {
+  left: 2%;
+  animation-delay: 3.2s;
+}
+.heart-21 {
+  left: 12%;
+  animation-delay: 4.2s;
+}
+.heart-22 {
+  left: 22%;
+  animation-delay: 5.2s;
+}
+.heart-23 {
+  left: 32%;
+  animation-delay: 6.2s;
+}
+.heart-24 {
+  left: 42%;
+  animation-delay: 7.2s;
+}
+.heart-25 {
+  left: 52%;
+  animation-delay: 0.8s;
+}
+
+/* Rose Petals */
+.rose-petals {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.petal {
+  position: absolute;
+  font-size: 1.2rem;
+  opacity: 0.6;
+  animation: petalFall 12s infinite linear;
+}
+
+@keyframes petalFall {
+  0% {
+    transform: translateY(-100px) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.6;
+  }
+  90% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+.petal-1 {
+  left: 8%;
+  animation-delay: 0s;
+}
+.petal-2 {
+  left: 18%;
+  animation-delay: 2s;
+}
+.petal-3 {
+  left: 28%;
+  animation-delay: 4s;
+}
+.petal-4 {
+  left: 38%;
+  animation-delay: 6s;
+}
+.petal-5 {
+  left: 48%;
+  animation-delay: 8s;
+}
+.petal-6 {
+  left: 58%;
+  animation-delay: 10s;
+}
+.petal-7 {
+  left: 68%;
+  animation-delay: 1s;
+}
+.petal-8 {
+  left: 78%;
+  animation-delay: 3s;
+}
+.petal-9 {
+  left: 88%;
+  animation-delay: 5s;
+}
+.petal-10 {
+  left: 3%;
+  animation-delay: 7s;
+}
+.petal-11 {
+  left: 13%;
+  animation-delay: 9s;
+}
+.petal-12 {
+  left: 23%;
+  animation-delay: 11s;
+}
+.petal-13 {
+  left: 33%;
+  animation-delay: 1.5s;
+}
+.petal-14 {
+  left: 43%;
+  animation-delay: 3.5s;
+}
+.petal-15 {
+  left: 53%;
+  animation-delay: 5.5s;
+}
+
+/* Sparkles */
+.sparkles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.sparkle {
+  position: absolute;
+  font-size: 0.8rem;
+  opacity: 0.8;
+  animation: sparkleShine 3s infinite ease-in-out;
+}
+
+@keyframes sparkleShine {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.2);
+  }
+}
+
+.sparkle-1 {
+  left: 10%;
+  top: 10%;
+  animation-delay: 0s;
+}
+.sparkle-2 {
+  left: 20%;
+  top: 20%;
+  animation-delay: 0.5s;
+}
+.sparkle-3 {
+  left: 30%;
+  top: 15%;
+  animation-delay: 1s;
+}
+.sparkle-4 {
+  left: 40%;
+  top: 25%;
+  animation-delay: 1.5s;
+}
+.sparkle-5 {
+  left: 50%;
+  top: 10%;
+  animation-delay: 2s;
+}
+.sparkle-6 {
+  left: 60%;
+  top: 30%;
+  animation-delay: 2.5s;
+}
+.sparkle-7 {
+  left: 70%;
+  top: 15%;
+  animation-delay: 0.2s;
+}
+.sparkle-8 {
+  left: 80%;
+  top: 25%;
+  animation-delay: 0.7s;
+}
+.sparkle-9 {
+  left: 90%;
+  top: 20%;
+  animation-delay: 1.2s;
+}
+.sparkle-10 {
+  left: 15%;
+  top: 40%;
+  animation-delay: 1.7s;
+}
+.sparkle-11 {
+  left: 25%;
+  top: 50%;
+  animation-delay: 2.2s;
+}
+.sparkle-12 {
+  left: 35%;
+  top: 45%;
+  animation-delay: 0.3s;
+}
+.sparkle-13 {
+  left: 45%;
+  top: 55%;
+  animation-delay: 0.8s;
+}
+.sparkle-14 {
+  left: 55%;
+  top: 40%;
+  animation-delay: 1.3s;
+}
+.sparkle-15 {
+  left: 65%;
+  top: 50%;
+  animation-delay: 1.8s;
+}
+.sparkle-16 {
+  left: 75%;
+  top: 45%;
+  animation-delay: 0.4s;
+}
+.sparkle-17 {
+  left: 85%;
+  top: 55%;
+  animation-delay: 0.9s;
+}
+.sparkle-18 {
+  left: 5%;
+  top: 60%;
+  animation-delay: 1.4s;
+}
+.sparkle-19 {
+  left: 95%;
+  top: 65%;
+  animation-delay: 1.9s;
+}
+.sparkle-20 {
+  left: 12%;
+  top: 70%;
+  animation-delay: 0.6s;
+}
+.sparkle-21 {
+  left: 22%;
+  top: 75%;
+  animation-delay: 1.1s;
+}
+.sparkle-22 {
+  left: 32%;
+  top: 80%;
+  animation-delay: 1.6s;
+}
+.sparkle-23 {
+  left: 42%;
+  top: 70%;
+  animation-delay: 2.1s;
+}
+.sparkle-24 {
+  left: 52%;
+  top: 75%;
+  animation-delay: 0.1s;
+}
+.sparkle-25 {
+  left: 62%;
+  top: 80%;
+  animation-delay: 0.6s;
+}
+.sparkle-26 {
+  left: 72%;
+  top: 70%;
+  animation-delay: 1.1s;
+}
+.sparkle-27 {
+  left: 82%;
+  top: 75%;
+  animation-delay: 1.6s;
+}
+.sparkle-28 {
+  left: 92%;
+  top: 80%;
+  animation-delay: 2.1s;
+}
+.sparkle-29 {
+  left: 8%;
+  top: 85%;
+  animation-delay: 0.4s;
+}
+.sparkle-30 {
+  left: 88%;
+  top: 90%;
+  animation-delay: 1.9s;
+}
+
+.min-h-screen {
+  min-height: 100vh;
+}
+
+.p-4 {
+  padding: 1rem;
+}
+
+.valentine-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+  position: relative;
+  z-index: 10;
+}
+
+.valentine-generator,
+.valentine-card,
+.success-card {
+  border: 2px solid var(--valentine);
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 20px rgba(255, 105, 180, 0.3), 3px 3px 0 var(--valentine);
+  transition: all 0.3s ease;
+  color: var(--primary);
+  padding: 2rem;
+  max-width: 32rem;
+  width: 100%;
+  text-align: center;
+  backdrop-filter: blur(10px);
+}
+
+.dark .valentine-generator,
+.dark .valentine-card,
+.dark .success-card {
+  background: rgba(10, 10, 10, 0.95);
+  border-color: var(--valentine);
+  box-shadow: 0 0 20px rgba(255, 20, 147, 0.4), 3px 3px 0 var(--valentine);
+}
+
+.valentine-generator:hover,
+.valentine-card:hover,
+.success-card:hover {
+  box-shadow: 0 0 30px rgba(255, 105, 180, 0.5), 5px 5px 0 var(--valentine);
+  transform: scale(1.02);
+}
+
+.pixel-corners {
+  clip-path: polygon(
+    0% 4px,
+    4px 4px,
+    4px 0%,
+    calc(100% - 4px) 0%,
+    calc(100% - 4px) 4px,
+    100% 4px,
+    100% calc(100% - 4px),
+    calc(100% - 4px) calc(100% - 4px),
+    calc(100% - 4px) 100%,
+    4px 100%,
+    4px calc(100% - 4px),
+    0% calc(100% - 4px)
+  );
+}
+
+.generator-title,
+.card-title,
+.success-title {
+  font-size: 1.75rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  font-family: "Dancing Script", cursive;
+  color: var(--valentine);
+  text-shadow: 2px 2px 4px rgba(255, 105, 180, 0.3);
+}
+
+.instruction-text {
+  font-size: 1.125rem;
+  margin-bottom: 1.5rem;
+  font-family: "VT323", monospace;
+  line-height: 1.6;
+}
+
+.input-section {
+  margin-bottom: 2rem;
+}
+
+.input-label {
+  display: block;
+  margin-bottom: 0.75rem;
+  font-family: "VT323", monospace;
+  font-size: 1.125rem;
+}
+
+.name-input,
+.message-input {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--primary);
+  border: 2px solid var(--valentine);
+  padding: 0.75rem;
+  font-family: "VT323", monospace;
+  font-size: 1.125rem;
+  width: 100%;
+  margin-bottom: 1rem;
+  box-sizing: border-box;
+  border-radius: 8px;
+}
+
+.dark .name-input,
+.dark .message-input {
+  background: rgba(10, 10, 10, 0.9);
+  color: var(--primary);
+}
+
+.name-input:focus,
+.message-input:focus {
+  outline: none;
+  border-color: var(--valentine-dark);
+  box-shadow: 0 0 15px rgba(255, 105, 180, 0.5);
+}
+
+.name-input::placeholder,
+.message-input::placeholder {
+  color: var(--primary);
+  opacity: 0.6;
+}
+
+.message-input {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.retro-button {
+  border: 2px solid var(--secondary);
+  background: var(--light);
+  box-shadow: 2px 2px 0 var(--primary);
+  color: var(--primary);
+  font-family: "Press Start 2P", cursive;
+  font-size: 0.7rem;
+  transition: all 0.2s;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.retro-button:hover:not(:disabled) {
+  background: var(--secondary);
+  color: var(--light);
+  transform: translateY(-2px);
+}
+
+.retro-button:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: 1px 1px 0 var(--primary);
+}
+
+.retro-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.generate-button {
+  background: var(--valentine);
+  border-color: var(--valentine);
+  color: white;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+}
+
+.generate-button:hover:not(:disabled) {
+  background: var(--valentine-dark);
+  color: white;
+  box-shadow: 0 0 15px rgba(255, 105, 180, 0.6);
+}
+
+.link-section {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 2px dashed var(--valentine);
+}
+
+.link-title {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  font-family: "Dancing Script", cursive;
+  color: var(--valentine);
+}
+
+.link-container {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.generated-link {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--primary);
+  border: 2px solid var(--valentine);
+  padding: 0.5rem;
+  font-family: "VT323", monospace;
+  font-size: 0.9rem;
+  flex: 1;
+  min-width: 200px;
+  border-radius: 8px;
+}
+
+.dark .generated-link {
+  background: rgba(10, 10, 10, 0.9);
+}
+
+.copy-button {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+
+.link-instruction {
+  font-size: 1rem;
+  font-family: "VT323", monospace;
+  color: var(--valentine);
+  font-style: italic;
+}
+
+/* Valentine Card Styles */
+.card-header {
+  margin-bottom: 2rem;
+}
+
+.card-content {
+  text-align: center;
+}
+
+.heart-decoration {
+  margin: 2rem 0;
+}
+
+.big-heart {
+  font-size: 4rem;
+  animation: heartbeat 1.5s ease-in-out infinite;
+  filter: drop-shadow(0 0 10px rgba(255, 105, 180, 0.6));
+}
+
+@keyframes heartbeat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.valentine-question {
+  font-size: 1.5rem;
+  margin: 2rem 0;
+  font-family: "Dancing Script", cursive;
+  color: var(--valentine);
+  line-height: 1.4;
+  text-shadow: 1px 1px 2px rgba(255, 105, 180, 0.3);
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+  position: relative;
+  min-height: 60px;
+}
+
+.yes-button {
+  background: var(--valentine);
+  border-color: var(--valentine);
+  color: white;
+  font-size: 0.8rem;
+  padding: 1rem 1.5rem;
+}
+
+.yes-button:hover {
+  background: var(--valentine-dark);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 0 20px rgba(255, 105, 180, 0.8);
+}
+
+.no-button {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: var(--valentine);
+  color: var(--valentine);
+  font-size: 0.8rem;
+  padding: 1rem 1.5rem;
+  position: relative;
+}
+
+.dark .no-button {
+  background: rgba(10, 10, 10, 0.9);
+}
+
+.no-button:hover {
+  background: var(--valentine);
+  color: white;
+}
+
+.no-button-gone {
+  font-size: 1rem;
+  font-family: "VT323", monospace;
+  color: var(--valentine);
+  margin-top: 1rem;
+  font-style: italic;
+  line-height: 1.6;
+}
+
+/* Success Card Styles */
+.success-title {
+  font-size: 2.5rem;
+  color: var(--valentine);
+  margin-bottom: 1rem;
+  font-family: "Dancing Script", cursive;
+}
+
+.hearts-animation {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 2rem 0;
+}
+
+.heart {
+  font-size: 2rem;
+  animation: float 2s ease-in-out infinite;
+}
+
+.heart:nth-child(1) {
+  animation-delay: 0s;
+}
+.heart:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.heart:nth-child(3) {
+  animation-delay: 0.4s;
+}
+.heart:nth-child(4) {
+  animation-delay: 0.6s;
+}
+.heart:nth-child(5) {
+  animation-delay: 0.8s;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.success-message {
+  font-size: 1.5rem;
+  margin: 1.5rem 0;
+  font-family: "Dancing Script", cursive;
+  color: var(--valentine);
+}
+
+.custom-message-display {
+  background: rgba(255, 182, 193, 0.3);
+  border: 2px dashed var(--valentine);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 2rem 0;
+}
+
+.dark .custom-message-display {
+  background: rgba(255, 20, 147, 0.2);
+}
+
+.custom-message-display h3 {
+  font-family: "Dancing Script", cursive;
+  color: var(--valentine);
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
+
+.custom-message-text {
+  font-family: "VT323", monospace;
+  font-size: 1.2rem;
+  color: var(--valentine-dark);
+  font-style: italic;
+  line-height: 1.6;
+}
+
+.success-submessage {
+  font-size: 1.125rem;
+  margin-bottom: 2rem;
+  font-family: "VT323", monospace;
+  color: var(--primary);
+  font-style: italic;
+}
+
+.scanline,
+.crt-effect {
+  display: none;
+}
+
+.dark .scanline,
+.dark .crt-effect {
+  display: block;
+}
+
+.scanline {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+  background-size: 100% 4px;
+  z-index: 2000;
+  pointer-events: none;
+  opacity: 0.15;
+}
+
+.crt-effect {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(10, 10, 10, 0) 0%,
+    rgba(10, 10, 10, 0.15) 90%,
+    rgba(10, 10, 10, 0.4) 100%
+  );
+  z-index: 2001;
+  pointer-events: none;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .valentine-generator,
+  .valentine-card,
+  .success-card {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+
+  .generator-title,
+  .card-title,
+  .success-title {
+    font-size: 1.5rem;
+  }
+
+  .link-container {
+    flex-direction: column;
+  }
+
+  .generated-link {
+    min-width: auto;
+  }
+
+  .button-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .retro-button {
+    width: 100%;
+    max-width: 200px;
+  }
+
+  .floating-heart {
+    font-size: 1.2rem;
+  }
+
+  .petal {
+    font-size: 1rem;
+  }
+
+  .sparkle {
+    font-size: 0.6rem;
+  }
+}
