@@ -48,17 +48,14 @@ function ButterflyEffect() {
 
     try {
       // Only attempt dynamic import in browser environment
-      console.log("Attempting to load WebLLM...");
-      const webllmModule = await import("https://esm.run/@mlc-ai/web-llm");
-      console.log("WebLLM module loaded", webllmModule);
-
+      const webllmModule = await import("https://esm.run/@mlc-ai/web-llm")
       const { CreateMLCEngine } = webllmModule
 
       // Initialize with a smaller, faster model
       const selectedModel = "Llama-3.2-1B-Instruct-q4f32_1-MLC"
 
       setOutput(`Initializing ${selectedModel}...<br/>Please wait, this may take a moment...`)
-      console.log("Creating MLC engine...");
+
       engineRef.current = await CreateMLCEngine(selectedModel, {
         initProgressCallback: (report) => {
           console.log("WebLLM Init Progress:", report)
@@ -67,8 +64,7 @@ function ButterflyEffect() {
           }
         },
       })
-      console.log("Engine created", engineRef.current);
-      
+
       setWebllmReady(true)
       console.log("🤖 WebLLM initialized successfully!")
       setOutput("AI ready! Enter a decision to generate butterfly effects.")
@@ -150,6 +146,11 @@ Now generate one starting from:`
       return
     }
 
+    // Force AI initialization when generate is clicked
+    if (!initializationAttempted) {
+      await initializeWebLLM()
+    }
+
     setIsLoading(true)
     setOutput("Generating butterfly effect...<br/>🧠 Creating your effect chain...")
 
@@ -225,6 +226,9 @@ Now generate one starting from:`
               className={`retro-button generate-button ${isButtonDisabled() ? "disabled" : ""}`}
             >
               {getButtonText()}
+            </button>
+            <button onClick={initializeWebLLM} className="retro-button" style={{ marginLeft: "1rem" }}>
+              Force AI Init
             </button>
           </div>
 
