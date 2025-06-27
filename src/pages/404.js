@@ -96,7 +96,7 @@ function NotFound() {
           </div>
 
           <div className="error-description">
-            <p>The page you're looking for has been:</p>
+            <p>The page you're looking for is:</p>
             <ul className="error-list">
               <li>• GONE just like her feelings for you!</li>
             </ul>

@@ -65,7 +65,7 @@ function Footer() {
   }, [])
 
   const handleAboutClick = () => {
-  window.open("https://vargass.netlify.app/", "_blank");
+  window.open("https://vargasss.netlify.app/", "_blank");
   };
 
   
