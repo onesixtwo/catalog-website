@@ -26,7 +26,7 @@ const fallbackEffects = [
 
 function ButterflyEffect() {
   const [userInput, setUserInput] = useState("")
-  const [output, setOutput] = useState("🤖 AI is initializing... This may take a moment on first load.")
+  const [output, setOutput] = useState("Enter a decision to generate butterfly effects.")
   const [isLoading, setIsLoading] = useState(false)
   const [webllmReady, setWebllmReady] = useState(false)
   const [initializationAttempted, setInitializationAttempted] = useState(false)
@@ -39,19 +39,32 @@ function ButterflyEffect() {
 
     document.documentElement.classList.toggle("dark", shouldBeDark)
 
-    // Initialize WebLLM after component mounts
-    setTimeout(initializeWebLLM, 1000)
+    // Only try to initialize WebLLM in browser environment
+    if (typeof window !== "undefined") {
+      setTimeout(initializeWebLLM, 1000)
+    } else {
+      // Server-side rendering - skip AI initialization
+      setInitializationAttempted(true)
+      setOutput("Offline mode ready - generate butterfly effects!")
+    }
   }, [])
 
-  // Initialize WebLLM
+  // Initialize WebLLM (browser only)
   const initializeWebLLM = async () => {
     if (initializationAttempted) return
     setInitializationAttempted(true)
 
-    setOutput("Loading model... This may take a few minutes on first load.<br/>Downloading model files...")
+    // Skip AI initialization during build
+    if (typeof window === "undefined" || process.env.NODE_ENV === "production") {
+      setWebllmReady(false)
+      setOutput("Offline mode ready - generate butterfly effects!")
+      return
+    }
+
+    setOutput("Loading AI model... This may take a few minutes on first load.<br/>Downloading model files...")
 
     try {
-      // Import WebLLM using the same CDN as chat.webllm.ai
+      // Only attempt dynamic import in browser environment
       const webllmModule = await import("https://esm.run/@mlc-ai/web-llm")
       const { CreateMLCEngine } = webllmModule
 
@@ -71,7 +84,7 @@ function ButterflyEffect() {
 
       setWebllmReady(true)
       console.log("🤖 WebLLM initialized successfully!")
-      setOutput("Enter a decision to generate butterfly effects.")
+      setOutput("AI ready! Enter a decision to generate butterfly effects.")
     } catch (error) {
       console.error("Failed to initialize WebLLM:", error)
       setWebllmReady(false)
@@ -173,7 +186,7 @@ Now generate one starting from:`
     } else if (initializationAttempted) {
       return "Generate Effect (Offline)"
     } else {
-      return "Loading AI..."
+      return "Loading..."
     }
   }
 
@@ -218,7 +231,7 @@ Now generate one starting from:`
 
           <div className="info-section">
             <div className="info-text">
-              <p>Powered by local AI (WebLLM)</p>
+              <p>Powered by local AI (when available)</p>
               <p>Each decision creates infinite possibilities</p>
               <p>Your data stays private - runs in your browser!</p>
             </div>
