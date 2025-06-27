@@ -1,0 +1,228 @@
+@import url("https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&display=swap");
+
+:root {
+  --primary: #5a4a42;
+  --secondary: #8b5a2b;
+  --light: #faf6ea;
+  --dark: #000000;
+  --darker: #f8f4e5;
+  --accent: #a0522d;
+  --glow: none;
+}
+
+.dark {
+  --primary: #0cff0c;
+  --secondary: #00cc00;
+  --light: #0a0a0a;
+  --dark: #f0fff0;
+  --darker: #050505;
+  --accent: #00ff9d;
+  --glow: 0 0 5px #0cff0c, 0 0 10px #0cff0c40;
+}
+
+body {
+  font-family: "VT323", monospace;
+  background-color: var(--darker);
+  color: var(--primary);
+  text-shadow: var(--glow);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23d2c8b0' fill-opacity='0.1' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
+  transition: all 0.3s ease;
+}
+
+.min-h-screen {
+  min-height: 100vh;
+}
+
+.p-4 {
+  padding: 1rem;
+}
+
+.md-p-8 {
+  padding: 2rem;
+}
+
+@media (min-width: 768px) {
+  .md-p-8 {
+    padding: 2rem;
+  }
+}
+
+.main-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-counter-container {
+  border: 2px solid var(--secondary);
+  background: var(--light);
+  box-shadow: 3px 3px 0 var(--primary);
+  color: var(--primary);
+  padding: 1.5rem;
+  clip-path: polygon(
+    0% 4px,
+    4px 4px,
+    4px 0%,
+    calc(100% - 4px) 0%,
+    calc(100% - 4px) 4px,
+    100% 4px,
+    100% calc(100% - 4px),
+    calc(100% - 4px) calc(100% - 4px),
+    calc(100% - 4px) 100%,
+    4px 100%,
+    4px calc(100% - 4px),
+    0% calc(100% - 4px)
+  );
+  max-width: 24rem;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.card-counter-container:hover {
+  box-shadow: 5px 5px 0 var(--primary);
+  transform: scale(1.03);
+}
+
+.card-counter-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-family: "VT323", monospace;
+}
+
+.decks-input-container {
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.decks-label {
+  font-size: 1.125rem;
+  font-family: "VT323", monospace;
+}
+
+.decks-input {
+  width: 4rem;
+  padding: 0.25rem;
+  border: 2px solid var(--primary);
+  background: var(--darker);
+  color: var(--primary);
+  font-family: "VT323", monospace;
+  text-align: center;
+  font-size: 1.125rem;
+}
+
+.decks-input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.stats-container {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.stat-item {
+  font-size: 1.125rem;
+  margin-bottom: 0.25rem;
+  font-family: "VT323", monospace;
+}
+
+.stat-item:last-of-type {
+  margin-bottom: 1.5rem;
+}
+
+.count-display {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  font-family: "VT323", monospace;
+}
+
+.count-number {
+  color: #86efac;
+}
+
+.true-count-display {
+  font-size: 3rem;
+  font-weight: bold;
+  font-family: "VT323", monospace;
+}
+
+.true-count-number {
+  color: #86efac;
+}
+
+/* Button container - matches original HTML structure */
+.button-container {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.retro-button {
+  border: 2px solid var(--secondary);
+  background: var(--light);
+  box-shadow: 2px 2px 0 var(--primary);
+  color: var(--primary);
+  font-family: "Press Start 2P", cursive;
+  font-size: 0.7rem;
+  transition: all 0.2s;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.retro-button:hover {
+  background: var(--secondary);
+  color: var(--light);
+  transform: translateY(-2px);
+}
+
+.retro-button:active {
+  transform: translateY(1px);
+  box-shadow: 1px 1px 0 var(--primary);
+}
+
+.scanline,
+.crt-effect {
+  display: none;
+}
+
+.dark .scanline,
+.dark .crt-effect {
+  display: block;
+}
+
+.scanline {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+  background-size: 100% 4px;
+  z-index: 2000;
+  pointer-events: none;
+  opacity: 0.15;
+}
+
+.crt-effect {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(10, 10, 10, 0) 0%,
+    rgba(10, 10, 10, 0.15) 90%,
+    rgba(10, 10, 10, 0.4) 100%
+  );
+  z-index: 2001;
+  pointer-events: none;
+}
