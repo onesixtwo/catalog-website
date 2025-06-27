@@ -38,7 +38,7 @@ function ButterflyEffect() {
     setInitializationAttempted(true)
 
     // Skip AI initialization during build
-    if (typeof window === "undefined" || process.env.NODE_ENV === "production") {
+    if (typeof window === "undefined") {
       setWebllmReady(false)
       setOutput("Offline mode ready - generate butterfly effects!")
       return
