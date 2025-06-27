@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import Header from "../components/header"
 import Footer from "../components/footer"
 import "../styles/Grade Calculator.css"
@@ -35,7 +35,8 @@ function GradeCalculator() {
     document.documentElement.classList.toggle("dark", shouldBeDark)
   }, [])
 
-  const calculatePrelimGrade = () => {
+  // Move calculation functions inside useCallback
+  const calculatePrelimGrade = useCallback(() => {
     const classStanding = Number.parseFloat(prelimData.classStanding) || 0
     const prelimExam = Number.parseFloat(prelimData.prelimExam) || 0
     const prelimGrade = classStanding * 0.5 + prelimExam * 0.5
@@ -43,9 +44,9 @@ function GradeCalculator() {
       ...prev,
       prelimGrade: prelimGrade.toFixed(2),
     }))
-  }
+  }, [prelimData.classStanding, prelimData.prelimExam])
 
-  const calculateMidtermGrade = () => {
+  const calculateMidtermGrade = useCallback(() => {
     const prelimGrade = Number.parseFloat(midtermData.prelimGradeInput) || 0
     const midtermCS = Number.parseFloat(midtermData.midtermCS) || 0
     const midtermExam = Number.parseFloat(midtermData.midtermExam) || 0
@@ -54,9 +55,9 @@ function GradeCalculator() {
       ...prev,
       midtermGrade: midtermGrade.toFixed(2),
     }))
-  }
+  }, [midtermData.prelimGradeInput, midtermData.midtermCS, midtermData.midtermExam])
 
-  const calculateFinalGrade = () => {
+  const calculateFinalGrade = useCallback(() => {
     const midtermGrade = Number.parseFloat(finalsData.finalMidtermGrade) || 0
     const finalsCS = Number.parseFloat(finalsData.finalsCS) || 0
     const finalsExam = Number.parseFloat(finalsData.finalsExam) || 0
@@ -65,7 +66,20 @@ function GradeCalculator() {
       ...prev,
       finalGrade: finalGrade.toFixed(2),
     }))
-  }
+  }, [finalsData.finalMidtermGrade, finalsData.finalsCS, finalsData.finalsExam])
+
+  // Update useEffect calls
+  useEffect(() => {
+    calculatePrelimGrade()
+  }, [calculatePrelimGrade])
+
+  useEffect(() => {
+    calculateMidtermGrade()
+  }, [calculateMidtermGrade])
+
+  useEffect(() => {
+    calculateFinalGrade()
+  }, [calculateFinalGrade])
 
   const showNextCard = () => {
     setCurrentCard((prev) => (prev + 1) % totalCards)
@@ -95,18 +109,6 @@ function GradeCalculator() {
       [field]: value,
     }))
   }
-
-  useEffect(() => {
-    calculatePrelimGrade()
-  }, [prelimData.classStanding, prelimData.prelimExam])
-
-  useEffect(() => {
-    calculateMidtermGrade()
-  }, [midtermData.prelimGradeInput, midtermData.midtermCS, midtermData.midtermExam])
-
-  useEffect(() => {
-    calculateFinalGrade()
-  }, [finalsData.finalMidtermGrade, finalsData.finalsCS, finalsData.finalsExam])
 
   return (
     <div className="min-h-screen p-4">

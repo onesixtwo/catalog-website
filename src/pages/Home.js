@@ -1,13 +1,11 @@
 "use client"
 
-import { useEffect } from "react"
 import { Link } from "react-router-dom"
 import Header from "../components/header"
 import Footer from "../components/footer"
 import "../styles/Home.css"
 
 function Home() {
-  
   return (
     <div className="min-h-screen p-4 md:p-8">
       <div className="scanline"></div>
@@ -93,9 +91,7 @@ function Home() {
           <div className="flex justify-between items-start mb-3">
             <h2 className="text-2xl font-bold">soon</h2>
           </div>
-          <div className="mb-4 h-40 bg-primary/10 flex items-center justify-center">
-            {/* SVG ICON HERE */}
-          </div>
+          <div className="mb-4 h-40 bg-primary/10 flex items-center justify-center">{/* SVG ICON HERE */}</div>
           <p className="text-lg">nothing to see here</p>
         </Link>
 
@@ -104,9 +100,7 @@ function Home() {
           <div className="flex justify-between items-start mb-3">
             <h2 className="text-2xl font-bold">soon</h2>
           </div>
-          <div className="mb-4 h-40 bg-primary/10 flex items-center justify-center">
-             {/* SVG ICON HERE */}
-          </div>
+          <div className="mb-4 h-40 bg-primary/10 flex items-center justify-center">{/* SVG ICON HERE */}</div>
           <p className="text-lg">nothing to see here</p>
         </Link>
 
@@ -115,9 +109,7 @@ function Home() {
           <div className="flex justify-between items-start mb-3">
             <h2 className="text-2xl font-bold">soon</h2>
           </div>
-          <div className="mb-4 h-40 bg-primary/10 flex items-center justify-center">
-            {/* SVG ICON HERE */}
-          </div>
+          <div className="mb-4 h-40 bg-primary/10 flex items-center justify-center">{/* SVG ICON HERE */}</div>
           <p className="text-lg">nothing to see here</p>
         </Link>
       </main>

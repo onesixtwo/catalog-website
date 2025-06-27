@@ -62,7 +62,7 @@ function NotFound() {
     }, 3000)
 
     return () => clearInterval(messageInterval)
-  }, [])
+  }, [errorMessages.length])
 
   const handleRandomClick = () => {
     const pages = ["/", "/BJ Counter", "/Grade Calculator", "/Butterfly Effect"]
@@ -101,7 +101,6 @@ function NotFound() {
               <li>• GONE just like her feelings for you!</li>
             </ul>
           </div>
-
         </div>
 
         <div className="error-actions">

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
 import Header from "../components/header"
 import Footer from "../components/footer"
 import "../styles/Butterfly Effect.css"
@@ -32,25 +32,8 @@ function ButterflyEffect() {
   const [initializationAttempted, setInitializationAttempted] = useState(false)
   const engineRef = useRef(null)
 
-  useEffect(() => {
-    // Check for saved theme preference, default to dark if none
-    const savedTheme = localStorage.getItem("theme")
-    const shouldBeDark = savedTheme === "dark" || (!savedTheme && true)
-
-    document.documentElement.classList.toggle("dark", shouldBeDark)
-
-    // Only try to initialize WebLLM in browser environment
-    if (typeof window !== "undefined") {
-      setTimeout(initializeWebLLM, 1000)
-    } else {
-      // Server-side rendering - skip AI initialization
-      setInitializationAttempted(true)
-      setOutput("Offline mode ready - generate butterfly effects!")
-    }
-  }, [])
-
-  // Initialize WebLLM (browser only)
-  const initializeWebLLM = async () => {
+  // Move initializeWebLLM inside useCallback
+  const initializeWebLLM = useCallback(async () => {
     if (initializationAttempted) return
     setInitializationAttempted(true)
 
@@ -90,7 +73,24 @@ function ButterflyEffect() {
       setWebllmReady(false)
       setOutput("Using offline mode with pre-generated effects.<br/>🎲 Still fun, just not AI-powered!")
     }
-  }
+  }, [initializationAttempted])
+
+  useEffect(() => {
+    // Check for saved theme preference, default to dark if none
+    const savedTheme = localStorage.getItem("theme")
+    const shouldBeDark = savedTheme === "dark" || (!savedTheme && true)
+
+    document.documentElement.classList.toggle("dark", shouldBeDark)
+
+    // Only try to initialize WebLLM in browser environment
+    if (typeof window !== "undefined") {
+      setTimeout(initializeWebLLM, 1000)
+    } else {
+      // Server-side rendering - skip AI initialization
+      setInitializationAttempted(true)
+      setOutput("Offline mode ready - generate butterfly effects!")
+    }
+  }, [initializeWebLLM])
 
   const generateWithAI = async (input) => {
     const prompt = `Create a surreal, darkly funny, and absurd butterfly effect chain starting from: "${input}".

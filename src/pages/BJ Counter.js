@@ -8,7 +8,6 @@ import "../styles/BJ Counter.css"
 function BJCounter() {
   const [count, setCount] = useState(0)
   const [decks, setDecks] = useState(1)
-  const [totalCards, setTotalCards] = useState(52)
   const [remainingCards, setRemainingCards] = useState(52)
 
   useEffect(() => {
@@ -22,7 +21,6 @@ function BJCounter() {
   useEffect(() => {
     // Update total and remaining cards when decks change
     const newTotalCards = decks * 52
-    setTotalCards(newTotalCards)
     setRemainingCards(newTotalCards)
     setCount(0)
   }, [decks])
