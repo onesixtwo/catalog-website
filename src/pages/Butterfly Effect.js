@@ -35,7 +35,7 @@ function ButterflyEffect() {
   // Move initializeWebLLM inside useCallback with force parameter
   const initializeWebLLM = useCallback(
     async (force = false) => {
-      alert(`🚀 ${force ? "Force AI Init" : "Auto AI Init"} button clicked!`)
+      alert(`🚀 ${force ? "Force AI Init" : "Auto AI Init"} starting!`)
 
       if (initializationAttempted && !force) {
         alert("⚠️ AI initialization already attempted! Use Force AI Init to retry.")
@@ -52,9 +52,9 @@ function ButterflyEffect() {
       alert("✅ Starting AI initialization process...")
       setInitializationAttempted(true)
 
-      // Skip AI initialization during build
-      if (typeof window === "undefined" || process.env.NODE_ENV === "production") {
-        alert("🔄 Running in production mode - using offline mode")
+      // Check if we're in a browser environment
+      if (typeof window === "undefined") {
+        alert("🔄 Server-side rendering detected - skipping AI init")
         setWebllmReady(false)
         setOutput("Offline mode ready - generate butterfly effects!")
         return
@@ -65,7 +65,7 @@ function ButterflyEffect() {
 
       try {
         alert("🔗 Importing WebLLM module...")
-        // Only attempt dynamic import in browser environment
+        // Dynamic import for WebLLM
         const webllmModule = await import("https://esm.run/@mlc-ai/web-llm")
         const { CreateMLCEngine } = webllmModule
 
