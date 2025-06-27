@@ -34,25 +34,38 @@ function ButterflyEffect() {
 
   // Move initializeWebLLM inside useCallback
   const initializeWebLLM = useCallback(async () => {
-    if (initializationAttempted) return
+    alert("🚀 Force AI Init button clicked!")
+
+    if (initializationAttempted) {
+      alert("⚠️ AI initialization already attempted!")
+      return
+    }
+
+    alert("✅ Starting AI initialization process...")
     setInitializationAttempted(true)
 
     // Skip AI initialization during build
     if (typeof window === "undefined" || process.env.NODE_ENV === "production") {
+      alert("🔄 Running in production mode - using offline mode")
       setWebllmReady(false)
       setOutput("Offline mode ready - generate butterfly effects!")
       return
     }
 
+    alert("📥 About to download AI model files...")
     setOutput("Loading AI model... This may take a few minutes on first load.<br/>Downloading model files...")
 
     try {
+      alert("🔗 Importing WebLLM module...")
       // Only attempt dynamic import in browser environment
       const webllmModule = await import("https://esm.run/@mlc-ai/web-llm")
       const { CreateMLCEngine } = webllmModule
 
+      alert("✅ WebLLM module imported successfully!")
+
       // Initialize with a smaller, faster model
       const selectedModel = "Llama-3.2-1B-Instruct-q4f32_1-MLC"
+      alert(`🤖 Creating AI engine with model: ${selectedModel}`)
 
       setOutput(`Initializing ${selectedModel}...<br/>Please wait, this may take a moment...`)
 
@@ -66,9 +79,11 @@ function ButterflyEffect() {
       })
 
       setWebllmReady(true)
+      alert("🎉 AI initialization completed successfully!")
       console.log("🤖 WebLLM initialized successfully!")
       setOutput("AI ready! Enter a decision to generate butterfly effects.")
     } catch (error) {
+      alert(`❌ AI initialization failed: ${error.message}`)
       console.error("Failed to initialize WebLLM:", error)
       setWebllmReady(false)
       setOutput("Using offline mode with pre-generated effects.<br/>🎲 Still fun, just not AI-powered!")
@@ -227,8 +242,13 @@ Now generate one starting from:`
             >
               {getButtonText()}
             </button>
-            <button onClick={initializeWebLLM} className="retro-button" style={{ marginLeft: "1rem" }}>
-              Force AI Init
+            <button
+              onClick={initializeWebLLM}
+              className="retro-button"
+              style={{ marginLeft: "1rem", backgroundColor: webllmReady ? "#00ff9d" : "" }}
+              disabled={isLoading}
+            >
+              {webllmReady ? "AI Ready ✅" : "Force AI Init 🚀"}
             </button>
           </div>
 
