@@ -1,4 +1,4 @@
-# VARGAS CATALOG 🚀
+# VARGAS CATALOG
 
 A retro-themed collection of random utilities built with React.
 
@@ -11,16 +11,7 @@ npm start
 
 Open \`http://localhost:3000\`
 
-## 🛠️ Tech Stack
-
-- **React 19** - Modern React with latest features
-- **React Router** - Client-side routing
-- **CSS3** - Custom styling with CSS variables
-- **WebLLM** - Local AI processing for Butterfly Effect
-- **Press Start 2P & VT323** - Retro fonts
-- **Dancing Script** - Romantic font for Valentine cards
-
-## 🌐 Deployment
+## Deployment
 
 ### Netlify (Recommended)
 The project includes Netlify configuration:
