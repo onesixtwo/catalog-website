@@ -33,7 +33,7 @@ function Header() {
   return (
     <header className="header-container">
       <div className="logo" onClick={handleLogoClick}>
-        <span>VARGAS </span>
+        <span>RANDOM </span>
         <span className="text-accent">CATALOG</span>
       </div>
       <button onClick={toggleTheme} className="retro-button">

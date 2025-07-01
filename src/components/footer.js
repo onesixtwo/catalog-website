@@ -73,7 +73,7 @@ function Footer() {
     <footer className="footer-container">
       <div className="retro-container">
         <p className="footer-text">
-          © 2003 VARGAS RANDOM BULLSHIT COLLECTION <span className="blink">_</span>
+          © 2003 RANDOM BULLSHIT COLLECTION <span className="blink">_</span>
         </p>
         <p className="footer-subtext">One Random Shit at a time.</p>
         <div className="footer-buttons">

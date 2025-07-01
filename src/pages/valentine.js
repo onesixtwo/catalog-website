@@ -62,11 +62,16 @@ function Valentine() {
     }
     setGeneratedLink(link)
   }
+  const [copyButtonText, setCopyButtonText] = useState("Copy Link 📋")
 
   const copyLink = () => {
-    navigator.clipboard.writeText(generatedLink)
-    alert("Link copied to clipboard! 💕")
-  }
+  navigator.clipboard.writeText(generatedLink)
+  setCopyButtonText("Copied! ✅")
+  setTimeout(() => {
+    setCopyButtonText("Copy Link 📋")
+  }, 2000)
+}
+
 
   const handleNoClick = () => {
     const newClickCount = noClickCount + 1
@@ -85,39 +90,37 @@ function Valentine() {
       return
     }
 
-    // Move button to random position (only for first 9 clicks)
+    // Move button to random position within the card (only for first 9 clicks)
     if (newClickCount < 10) {
-      // Get viewport dimensions
-      const viewportWidth = window.innerWidth
-      const viewportHeight = window.innerHeight
+      // Get the button container dimensions (the card content area)
+      const buttonContainer = document.querySelector(".button-container")
+      if (buttonContainer) {
+        const containerRect = buttonContainer.getBoundingClientRect()
 
-      // Button dimensions (generous estimates)
-      const buttonWidth = 250
-      const buttonHeight = 80
+        // Button dimensions (generous estimates)
+        const buttonWidth = 150
+        const buttonHeight = 60
 
-      // Large padding to ensure visibility
-      const padding = 50
-      const minX = padding
-      const maxX = viewportWidth - buttonWidth - padding
-      const minY = padding
-      const maxY = viewportHeight - buttonHeight - padding
+        // Calculate safe boundaries within the container
+        const maxX = containerRect.width - buttonWidth
+        const maxY = containerRect.height - buttonHeight
 
-      // Ensure we have valid boundaries
-      const safeMaxX = Math.max(minX, maxX)
-      const safeMaxY = Math.max(minY, maxY)
+        // Ensure minimum boundaries
+        const safeMaxX = Math.max(0, maxX)
+        const safeMaxY = Math.max(0, maxY)
 
-      // Generate random position within safe boundaries
-      const randomX = Math.random() * (safeMaxX - minX) + minX
-      const randomY = Math.random() * (safeMaxY - minY) + minY
+        // Generate random position within the container
+        const randomX = Math.random() * safeMaxX
+        const randomY = Math.random() * safeMaxY
 
-      setNoButtonStyle({
-        position: "fixed",
-        left: `${Math.max(0, randomX)}px`,
-        top: `${Math.max(0, randomY)}px`,
-        transition: "all 0.3s ease",
-        zIndex: 9999, // Very high z-index to ensure it's on top
-        pointerEvents: "auto", // Ensure it's clickable
-      })
+        setNoButtonStyle({
+          position: "absolute",
+          left: `${randomX}px`,
+          top: `${randomY}px`,
+          transition: "all 0.3s ease",
+          zIndex: 10,
+        })
+      }
     }
   }
 
@@ -289,7 +292,7 @@ function Valentine() {
                 <div className="link-container">
                   <input type="text" value={generatedLink} readOnly className="generated-link" />
                   <button onClick={copyLink} className="retro-button copy-button">
-                    Copy Link 📋
+                    {copyButtonText}
                   </button>
                 </div>
                 <p className="link-instruction">Send this link to your special someone! 💖</p>
