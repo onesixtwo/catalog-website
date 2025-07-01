@@ -1,224 +1,130 @@
 "use client"
 
-import { useState, useEffect, useRef, useCallback } from "react"
+import { useState } from "react"
 import Header from "../components/header"
 import Footer from "../components/footer"
 import "../styles/Butterfly Effect.css"
 
-// Fallback effects for when AI is not available
+// Your fallback effects if API fails
 const fallbackEffects = [
   "Decided to wear mismatched socks → Caught attention of a fashion scout → Became trendsetter for asymmetrical fashion → Started global movement against conformity → Overthrew the sock industry → Established the Republic of Mismatched Everything",
-
   "Chose to eat cereal for dinner → Spilled milk on important documents → Documents became illegible → Had to rewrite them from memory → Made accidental improvements → Got promoted → Became CEO → Bought the cereal company",
-
   "Decided to take stairs instead of elevator → Met someone carrying too many boxes → Helped them carry boxes → Boxes contained prototype inventions → Became business partners → Invented teleportation → Eliminated need for stairs and elevators",
-
   "Chose to listen to a different song → Song had subliminal frequency → Awakened dormant psychic abilities → Could predict lottery numbers → Won jackpot → Bought small country → Declared it a music-only nation",
-
   "Decided to pet a random cat → Cat followed you home → Cat was actually an alien scout → Aliens made first contact through cat → Became Earth's ambassador → Negotiated intergalactic peace → Cats now rule the universe",
-
   "Chose to use a different pen → Pen leaked on your hand → Hand print on door became abstract art → Art critic discovered it → Became famous artist → Art sold for millions → Bought pen factory → All pens now leak intentionally",
-
   "Decided to walk a different route → Found a $20 bill → Used it to buy lottery ticket → Won small prize → Reinvested winnings → Became professional gambler → Opened casino → Banned walking on that route to preserve luck",
-
   "Chose to sneeze at wrong moment → Sneeze caused butterfly to change direction → Butterfly landed on nuclear physicist → Physicist had breakthrough idea → Invented clean energy → Solved climate crisis → Your sneeze saved the planet",
 ]
 
-function ButterflyEffect() {
+// === Configuration: replace these with your own ===
+const OPENROUTER_API_KEY = "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"
+const SITE_URL = "https://vargass.netlify.app/Butterfly%20Effect" // e.g. "https://butterflyeffect.example.com"
+const SITE_NAME = "Butterfly Effect Machine"
+// ===============================================
+
+export default function ButterflyEffect() {
   const [userInput, setUserInput] = useState("")
-  const [output, setOutput] = useState("Enter a decision to generate butterfly effects.")
+  const [output, setOutput] = useState("Enter a tiny decision to generate butterfly effects.")
   const [isLoading, setIsLoading] = useState(false)
-  const [webllmReady, setWebllmReady] = useState(false)
-  const [initializationAttempted, setInitializationAttempted] = useState(false)
-  const engineRef = useRef(null)
 
-  // Function to safely load WebLLM only in browser environment
-  const loadWebLLM = async () => {
-    try {
-      // Only attempt to load in browser environment
-      if (typeof window === "undefined") {
-        throw new Error("Not in browser environment")
-      }
-
-      // Use a function constructor to avoid build-time dynamic import issues
-      const importWebLLM = new Function('return import("https://esm.run/@mlc-ai/web-llm")')
-      const webllmModule = await importWebLLM()
-      return webllmModule
-    } catch (error) {
-      console.error("Failed to load WebLLM:", error)
-      throw error
-    }
-  }
-
-  // Initialize WebLLM
-  const initializeWebLLM = useCallback(async () => {
-    if (initializationAttempted) {
-      return
-    }
-
-    setInitializationAttempted(true)
-
-    // Check if we're in a browser environment
-    if (typeof window === "undefined") {
-      setWebllmReady(false)
-      setOutput("Offline mode ready - generate butterfly effects!")
-      return
-    }
-
-    setOutput("Loading AI model... This may take a few minutes on first load.<br/>Downloading model files...")
-
-    try {
-      // Use the safe loading function
-      const webllmModule = await loadWebLLM()
-      const { CreateMLCEngine } = webllmModule
-
-      // Initialize with a smaller, faster model
-      const selectedModel = "Llama-3.2-1B-Instruct-q4f32_1-MLC"
-
-      setOutput(`Initializing ${selectedModel}...<br/>Please wait, this may take a moment...`)
-
-      engineRef.current = await CreateMLCEngine(selectedModel, {
-        initProgressCallback: (report) => {
-          console.log("WebLLM Init Progress:", report)
-          if (report.text) {
-            setOutput(`Loading: ${report.text}<br/>Progress: ${Math.round((report.progress || 0) * 100)}%`)
-          }
-        },
-      })
-
-      setWebllmReady(true)
-      console.log("🤖 WebLLM initialized successfully!")
-      setOutput("AI ready! Enter a decision to generate butterfly effects.")
-    } catch (error) {
-      console.error("Failed to initialize WebLLM:", error)
-      setWebllmReady(false)
-      setOutput("Using offline mode with pre-generated effects.<br/>🎲 Still fun, just not AI-powered!")
-    }
-  }, [initializationAttempted])
-
-  useEffect(() => {
-    // Check for saved theme preference, default to dark if none
-    const savedTheme = localStorage.getItem("theme")
-    const shouldBeDark = savedTheme === "dark" || (!savedTheme && true)
-
-    document.documentElement.classList.toggle("dark", shouldBeDark)
-
-    // Only try to initialize WebLLM in browser environment
-    if (typeof window !== "undefined") {
-      setTimeout(() => initializeWebLLM(), 1000)
-    } else {
-      // Server-side rendering - skip AI initialization
-      setInitializationAttempted(true)
-      setOutput("Offline mode ready - generate butterfly effects!")
-    }
-  }, [initializeWebLLM])
-
+  // Function to call OpenRouter API
   const generateWithAI = async (input) => {
-    const prompt = `Create a surreal, darkly funny, and absurd butterfly effect chain starting from: "${input}".
-
-Write a chain of 5–6 bizarre but logically connected events. Each event must follow from the last in a ridiculous, imaginative way.
-Use arrows (→) to separate each step in the chain.
-Keep it short, punchy, and vivid — no explanations, no commentary.
-Do not use first-person or second-person — just describe the unfolding chain of events.
-
-just output the chain, no extra text.
-
-Now generate one starting from:`
+    const prompt = `Create a surreal, darkly funny, and absurd butterfly effect chain starting from: "${input}".\n\nWrite a chain of 5–6 bizarre but logically connected events. Each event must follow from the last in a ridiculous, imaginative way.\nUse arrows (→) to separate each step in the chain.\nKeep it short, punchy, and vivid — no explanations, no commentary.\nDo not use first-person or second-person — just describe the unfolding chain of events.\n\nNow generate one starting from:`
 
     try {
-      const response = await engineRef.current.chat.completions.create({
-        messages: [{ role: "user", content: prompt }],
-        temperature: 0.9,
-        max_tokens: 150,
+      const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
+          "Content-Type": "application/json",
+          "HTTP-Referer": SITE_URL,
+          "X-Title": SITE_NAME,
+        },
+        body: JSON.stringify({
+          model: "deepseek/deepseek-r1-0528:free",
+          messages: [
+            {
+              role: "user",
+              content: `${prompt} "${input}"`,
+            },
+          ],
+          temperature: 0.9,
+          max_tokens: 300,
+        }),
       })
 
-      const text = response.choices?.[0]?.message?.content?.trim()
-
-      if (text) {
-        const formattedText = text.replace(/→/g, '<span class="arrow">→</span>').replace(/\n/g, "<br/>")
-        return `<div class="butterfly-chain"><br/>${formattedText}</div>`
-      } else {
-        throw new Error("No response generated")
+      if (!response.ok) {
+        throw new Error(`API request failed with status ${response.status}`)
       }
+
+      const data = await response.json()
+
+      const text = data.choices?.[0]?.message?.content?.trim()
+
+      if (!text) throw new Error("No response text from API")
+
+      const formattedText = text
+        .replace(/→/g, '<span class="arrow">→</span>')
+        .replace(/\n/g, "<br/>")
+
+      return `<div class="butterfly-chain"><br/>${formattedText}</div>`
     } catch (error) {
-      console.error("Generation error:", error)
+      console.error("OpenRouter AI generation failed:", error)
       throw error
     }
   }
 
+  // Fallback effect generator
   const generateWithFallback = (input) => {
     return new Promise((resolve) => {
       setTimeout(() => {
         // Pick a random fallback effect
         const randomEffect = fallbackEffects[Math.floor(Math.random() * fallbackEffects.length)]
-
-        // Customize it slightly with the user's input
+        // Customize it with user's input at the start
         const customizedEffect = randomEffect.replace(/^[^→]*/, `"${input}"`)
-
-        const formattedText = customizedEffect.replace(/→/g, '<span class="arrow">→</span>')
-        resolve(`<div class="butterfly-chain">Offline Mode:<br/>${formattedText}</div>`)
+        const formatted = customizedEffect.replace(/→/g, '<span class="arrow">→</span>')
+        resolve(`<div class="butterfly-chain">Offline Mode:<br/>${formatted}</div>`)
       }, 1500)
     })
   }
 
+  // Main handler
   const generateEffect = async () => {
     if (!userInput.trim()) {
       setOutput("⚠️ Please enter a decision first!")
       return
     }
 
-    // Initialize AI if not attempted yet
-    if (!initializationAttempted) {
-      await initializeWebLLM()
-    }
-
     setIsLoading(true)
-    setOutput("Generating butterfly effect...<br/>🧠 Creating your effect chain...")
+    setOutput("Generating butterfly effect...<br/>🧠 Thinking...")
 
     try {
       let result
-      // If WebLLM is ready, use AI
-      if (webllmReady && engineRef.current) {
-        try {
-          result = await generateWithAI(userInput)
-        } catch (error) {
-          console.error("AI generation failed:", error)
-          // Fall back to offline mode
-          result = await generateWithFallback(userInput)
-        }
-      } else {
-        // Use fallback effects
+      try {
+        result = await generateWithAI(userInput)
+      } catch (error) {
+        // If API call fails, fallback
         result = await generateWithFallback(userInput)
       }
-
       setOutput(result)
     } catch (error) {
       console.error("Generation failed:", error)
-      setOutput("Something went wrong! Try again.")
+      setOutput("Something went wrong! Please try again.")
     } finally {
       setIsLoading(false)
     }
   }
 
-  const handleKeyPress = (e) => {
+  // Handle Enter key press in input
+  const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       generateEffect()
     }
   }
 
-  const getButtonText = () => {
-    if (webllmReady) {
-      return "Generate Effect (AI)"
-    } else if (initializationAttempted) {
-      return "Generate Effect (Offline)"
-    } else {
-      return "Loading..."
-    }
-  }
-
-  const isButtonDisabled = () => {
-    return !initializationAttempted || isLoading
-  }
+  // Button text updates with loading state
+  const getButtonText = () => (isLoading ? "Thinking..." : "Generate Effect")
 
   return (
     <div className="min-h-screen p-4">
@@ -237,14 +143,17 @@ Now generate one starting from:`
               type="text"
               value={userInput}
               onChange={(e) => setUserInput(e.target.value)}
-              onKeyPress={handleKeyPress}
+              onKeyDown={handleKeyDown}
               placeholder="e.g. Skipped brushing teeth at age 12"
               className="butterfly-input"
+              aria-label="Enter a tiny decision"
+              disabled={isLoading}
             />
             <button
               onClick={generateEffect}
-              disabled={isButtonDisabled()}
-              className={`retro-button generate-button ${isButtonDisabled() ? "disabled" : ""}`}
+              disabled={isLoading}
+              aria-label="Generate butterfly effect"
+              className={`retro-button generate-button ${isLoading ? "disabled" : ""}`}
             >
               {getButtonText()}
             </button>
@@ -253,11 +162,12 @@ Now generate one starting from:`
           <div
             className={`output-container ${isLoading ? "loading" : ""}`}
             dangerouslySetInnerHTML={{ __html: output }}
+            aria-live="polite"
           />
 
           <div className="info-section">
             <div className="info-text">
-              <p>Powered by local AI (when available)</p>
+              <p>Powered by OpenRouter AI (when available)</p>
               <p>Each decision creates infinite possibilities</p>
               <p>Your data stays private - runs in your browser!</p>
             </div>
@@ -269,5 +179,3 @@ Now generate one starting from:`
     </div>
   )
 }
-
-export default ButterflyEffect
